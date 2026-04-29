@@ -1,0 +1,122 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { getObject, deleteObject, ObjectItem } from '@/lib/api';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Toaster, toast } from 'sonner';
+import Link from 'next/link';
+
+export default function ObjectDetailPage() {
+  const params = useParams();
+  const router = useRouter();
+  const [object, setObject] = useState<ObjectItem | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchObject = async () => {
+      try {
+        const data = await getObject(params.id as string);
+        setObject(data);
+      } catch {
+        setError('Object not found');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchObject();
+  }, [params.id]);
+
+  const handleDelete = async () => {
+    if (!object) return;
+    if (!confirm('Are you sure you want to delete this object?')) return;
+
+    try {
+      await deleteObject(object._id);
+      toast.success('Object deleted');
+      router.push('/');
+    } catch {
+      toast.error('Failed to delete object');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <svg className="animate-spin h-8 w-8 text-primary" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+        </svg>
+      </div>
+    );
+  }
+
+  if (error || !object) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">😢</div>
+          <h2 className="text-2xl font-semibold mb-2">{error || 'Object not found'}</h2>
+          <Link href="/">
+            <Button variant="outline" className="mt-4">
+              ← Back to Home
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Toaster richColors position="top-right" />
+
+      {/* Header */}
+      <header className="border-b border-border bg-card">
+        <div className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
+          <Link href="/">
+            <Button variant="ghost">← Back</Button>
+          </Link>
+          <h1 className="text-xl font-bold tracking-tight">Heyama</h1>
+          <div className="w-20" />
+        </div>
+      </header>
+
+      {/* Content */}
+      <main className="max-w-4xl mx-auto px-4 py-8">
+        <Card className="overflow-hidden">
+          <div className="relative">
+            <img
+              src={object.imageUrl}
+              alt={object.title}
+              className="w-full h-64 sm:h-96 object-cover"
+            />
+          </div>
+          <CardContent className="p-6 space-y-4">
+            <h2 className="text-3xl font-bold">{object.title}</h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              {object.description}
+            </p>
+            <div className="flex items-center justify-between pt-4 border-t border-border">
+              <p className="text-sm text-muted-foreground">
+                Created{' '}
+                {new Date(object.createdAt).toLocaleDateString('fr-FR', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </p>
+              <Button variant="destructive" onClick={handleDelete}>
+                Delete Object
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}
