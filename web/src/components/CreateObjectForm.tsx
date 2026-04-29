@@ -30,7 +30,7 @@ export default function CreateObjectForm() {
     e.preventDefault();
 
     if (!file) {
-      toast.error('Please select an image');
+      toast.error('Veuillez sélectionner une image');
       return;
     }
 
@@ -42,7 +42,7 @@ export default function CreateObjectForm() {
       formData.append('image', file);
 
       await createObject(formData);
-      toast.success('Object created successfully!');
+      toast.success('Objet créé avec succès !');
 
       // Reset form
       setTitle('');
@@ -51,7 +51,7 @@ export default function CreateObjectForm() {
       setPreview(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Failed to create object';
+      const message = err instanceof Error ? err.message : 'Échec de la création de l\'objet';
       toast.error(message);
     } finally {
       setLoading(false);
@@ -61,10 +61,10 @@ export default function CreateObjectForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
-        <Label htmlFor="title">Title</Label>
+        <Label htmlFor="title">Titre</Label>
         <Input
           id="title"
-          placeholder="Enter a title..."
+          placeholder="Entrez un titre..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
@@ -75,7 +75,7 @@ export default function CreateObjectForm() {
         <Label htmlFor="description">Description</Label>
         <Textarea
           id="description"
-          placeholder="Enter a description..."
+          placeholder="Entrez une description..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
@@ -99,7 +99,7 @@ export default function CreateObjectForm() {
         <div className="rounded-lg overflow-hidden border border-border">
           <img
             src={preview}
-            alt="Preview"
+            alt="Aperçu"
             className="w-full h-48 object-cover"
           />
         </div>
@@ -112,10 +112,10 @@ export default function CreateObjectForm() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
-            Creating...
+            Création en cours...
           </span>
         ) : (
-          'Create Object'
+          'Créer l\'objet'
         )}
       </Button>
     </form>

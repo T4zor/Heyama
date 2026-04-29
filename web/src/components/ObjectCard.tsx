@@ -17,10 +17,10 @@ export default function ObjectCard({ object, onDeleted }: ObjectCardProps) {
 
     try {
       await deleteObject(object._id);
-      toast.success('Object deleted');
+      toast.success('Objet supprimé');
       onDeleted?.(object._id);
     } catch {
-      toast.error('Failed to delete object');
+      toast.error('Échec de la suppression');
     }
   };
 
@@ -50,7 +50,7 @@ export default function ObjectCard({ object, onDeleted }: ObjectCardProps) {
         <div className="flex gap-2 pt-2">
           <Link href={`/objects/${object._id}`} className="flex-1">
             <Button variant="outline" size="sm" className="w-full">
-              View
+              Voir
             </Button>
           </Link>
           <Button
@@ -58,7 +58,7 @@ export default function ObjectCard({ object, onDeleted }: ObjectCardProps) {
             size="sm"
             onClick={handleDelete}
           >
-            Delete
+            Supprimer
           </Button>
         </div>
       </CardContent>

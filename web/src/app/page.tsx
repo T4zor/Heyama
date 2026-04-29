@@ -61,16 +61,16 @@ export default function HomePage() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Heyama</h1>
             <p className="text-muted-foreground mt-1">
-              Object Collection Manager
+              Gestionnaire d'objets
             </p>
           </div>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger render={<Button size="lg" />}>
-              + New Object
+              + Nouvel objet
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Create a new Object</DialogTitle>
+                <DialogTitle>Créer un nouvel objet</DialogTitle>
               </DialogHeader>
               <CreateObjectForm />
             </DialogContent>
@@ -90,17 +90,17 @@ export default function HomePage() {
         ) : objects.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">📦</div>
-            <h2 className="text-2xl font-semibold mb-2">No objects yet</h2>
+            <h2 className="text-2xl font-semibold mb-2">Aucun objet pour le moment</h2>
             <p className="text-muted-foreground mb-6">
-              Create your first object to get started
+              Créez votre premier objet pour commencer
             </p>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger render={<Button size="lg" />}>
-                + Create your first Object
+                + Créer votre premier objet
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                  <DialogTitle>Create a new Object</DialogTitle>
+                  <DialogTitle>Créer un nouvel objet</DialogTitle>
                 </DialogHeader>
                 <CreateObjectForm />
               </DialogContent>
@@ -110,7 +110,7 @@ export default function HomePage() {
           <>
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold">
-                {objects.length} Object{objects.length > 1 ? 's' : ''}
+                {objects.length} Objet{objects.length > 1 ? 's' : ''}
               </h2>
 
             </div>

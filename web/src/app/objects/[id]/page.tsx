@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Toaster, toast } from 'sonner';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 export default function ObjectDetailPage() {
   const params = useParams();
@@ -21,7 +22,7 @@ export default function ObjectDetailPage() {
         const data = await getObject(params.id as string);
         setObject(data);
       } catch {
-        setError('Object not found');
+        setError('Objet introuvable');
       } finally {
         setLoading(false);
       }
@@ -31,14 +32,14 @@ export default function ObjectDetailPage() {
 
   const handleDelete = async () => {
     if (!object) return;
-    if (!confirm('Are you sure you want to delete this object?')) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cet objet ?')) return;
 
     try {
       await deleteObject(object._id);
-      toast.success('Object deleted');
+      toast.success('Objet supprimé');
       router.push('/');
     } catch {
-      toast.error('Failed to delete object');
+      toast.error('Échec de la suppression');
     }
   };
 
@@ -58,10 +59,10 @@ export default function ObjectDetailPage() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">😢</div>
-          <h2 className="text-2xl font-semibold mb-2">{error || 'Object not found'}</h2>
+          <h2 className="text-2xl font-semibold mb-2">{error || 'Objet introuvable'}</h2>
           <Link href="/">
             <Button variant="outline" className="mt-4">
-              ← Back to Home
+              ← Retour à l'accueil
             </Button>
           </Link>
         </div>
@@ -77,7 +78,7 @@ export default function ObjectDetailPage() {
       <header className="border-b border-border bg-card">
         <div className="max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
           <Link href="/">
-            <Button variant="ghost">← Back</Button>
+            <Button variant="ghost">← Retour</Button>
           </Link>
           <h1 className="text-xl font-bold tracking-tight">Heyama</h1>
           <div className="w-20" />
@@ -87,13 +88,32 @@ export default function ObjectDetailPage() {
       {/* Content */}
       <main className="max-w-4xl mx-auto px-4 py-8">
         <Card className="overflow-hidden">
-          <div className="relative">
-            <img
-              src={object.imageUrl}
-              alt={object.title}
-              className="w-full h-64 sm:h-96 object-cover"
-            />
-          </div>
+          <Dialog>
+            <DialogTrigger render={
+              <div className="relative cursor-pointer group">
+                <img
+                  src={object.imageUrl}
+                  alt={object.title}
+                  className="w-full h-64 sm:h-96 object-cover"
+                />
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                  <span className="text-lg font-medium">🔍 Voir en plein écran</span>
+                </div>
+              </div>
+            }>
+              {null}
+            </DialogTrigger>
+            <DialogContent className="max-w-5xl w-[95vw] p-1 bg-transparent border-none shadow-none">
+              <DialogHeader className="sr-only">
+                <DialogTitle>Image {object.title}</DialogTitle>
+              </DialogHeader>
+              <img
+                src={object.imageUrl}
+                alt={object.title}
+                className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
+              />
+            </DialogContent>
+          </Dialog>
           <CardContent className="p-6 space-y-4">
             <h2 className="text-3xl font-bold">{object.title}</h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
@@ -101,7 +121,7 @@ export default function ObjectDetailPage() {
             </p>
             <div className="flex items-center justify-between pt-4 border-t border-border">
               <p className="text-sm text-muted-foreground">
-                Created{' '}
+                Créé le{' '}
                 {new Date(object.createdAt).toLocaleDateString('fr-FR', {
                   day: 'numeric',
                   month: 'long',
@@ -111,7 +131,7 @@ export default function ObjectDetailPage() {
                 })}
               </p>
               <Button variant="destructive" onClick={handleDelete}>
-                Delete Object
+                Supprimer l'objet
               </Button>
             </div>
           </CardContent>
