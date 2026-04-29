@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: heyama-api
+    env: node
+    rootDir: api
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET_NAME
+        value: heyama-objects
+      - key: R2_PUBLIC_URL
+        value: https://pub-60a2b62d46494b54a8632d2ceba33ddc.r2.dev
