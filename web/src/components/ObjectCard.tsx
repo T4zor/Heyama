@@ -12,8 +12,8 @@ interface ObjectCardProps {
 }
 
 export default function ObjectCard({ object, onDeleted }: ObjectCardProps) {
-  const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this object?')) return;
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.stopPropagation();
 
     try {
       await deleteObject(object._id);
