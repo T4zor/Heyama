@@ -104,18 +104,18 @@ export default function ObjectDetailPage() {
             }>
               {null}
             </DialogTrigger>
-            <DialogContent className="max-w-5xl w-[95vw] p-1 bg-transparent border-none shadow-none">
+            <DialogContent className="!max-w-none !w-screen !h-screen !p-0 !m-0 !rounded-none bg-black/95 border-none shadow-none flex items-center justify-center overflow-hidden">
               <DialogHeader className="sr-only">
                 <DialogTitle>Image {object.title}</DialogTitle>
               </DialogHeader>
               <div 
-                className={`overflow-auto flex items-center justify-center max-h-[85vh] rounded-lg cursor-zoom-${isZoomed ? 'out' : 'in'}`}
+                className={`overflow-auto flex items-center justify-center w-full h-full cursor-zoom-${isZoomed ? 'out' : 'in'}`}
                 onClick={() => setIsZoomed(!isZoomed)}
               >
                 <img
                   src={object.imageUrl}
                   alt={object.title}
-                  className={`transition-transform duration-300 origin-center ${isZoomed ? 'scale-[2] cursor-zoom-out' : 'max-h-[85vh] object-contain w-full cursor-zoom-in'} rounded-lg`}
+                  className={`transition-transform duration-300 origin-center ${isZoomed ? 'scale-[2.5] cursor-zoom-out' : 'max-h-screen max-w-screen object-contain cursor-zoom-in'}`}
                 />
               </div>
             </DialogContent>
