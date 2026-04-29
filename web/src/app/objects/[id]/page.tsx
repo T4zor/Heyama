@@ -15,6 +15,7 @@ export default function ObjectDetailPage() {
   const [object, setObject] = useState<ObjectItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   useEffect(() => {
     const fetchObject = async () => {
@@ -107,11 +108,16 @@ export default function ObjectDetailPage() {
               <DialogHeader className="sr-only">
                 <DialogTitle>Image {object.title}</DialogTitle>
               </DialogHeader>
-              <img
-                src={object.imageUrl}
-                alt={object.title}
-                className="w-full h-auto max-h-[85vh] object-contain rounded-lg"
-              />
+              <div 
+                className={`overflow-auto flex items-center justify-center max-h-[85vh] rounded-lg cursor-zoom-${isZoomed ? 'out' : 'in'}`}
+                onClick={() => setIsZoomed(!isZoomed)}
+              >
+                <img
+                  src={object.imageUrl}
+                  alt={object.title}
+                  className={`transition-transform duration-300 origin-center ${isZoomed ? 'scale-[2] cursor-zoom-out' : 'max-h-[85vh] object-contain w-full cursor-zoom-in'} rounded-lg`}
+                />
+              </div>
             </DialogContent>
           </Dialog>
           <CardContent className="p-6 space-y-4">
