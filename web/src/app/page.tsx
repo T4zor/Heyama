@@ -8,6 +8,7 @@ import ObjectCard from '@/components/ObjectCard';
 import { Button } from '@/components/ui/button';
 import { Toaster } from 'sonner';
 import Link from 'next/link';
+import { UserRoundSync } from 'lucide-react';
 
 export default function HomePage() {
   const [objects, setObjects] = useState<ObjectItem[]>([]);
@@ -52,13 +53,18 @@ export default function HomePage() {
       <header className="border-b border-border bg-card">
         <div className="max-w-6xl mx-auto px-4 py-6 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Heyama <span className="text-sm font-normal text-muted-foreground ml-2 px-2 py-1 bg-muted rounded-md">Vue Client</span></h1>
+            <h1 className="text-3xl font-bold tracking-tight flex items-center flex-wrap gap-2">
+              Heyama 
+              <span className="text-sm font-normal text-muted-foreground px-2 py-1 bg-muted rounded-md">Vue Client</span>
+            </h1>
             <p className="text-muted-foreground mt-1">
               Galerie des objets (Lecture seule)
             </p>
           </div>
           <Link href="/admin">
-            <Button variant="outline">Accès Admin 🔒</Button>
+            <Button variant="outline" className="flex items-center gap-2">
+              <UserRoundSync className="w-4 h-4" /> Mode admin
+            </Button>
           </Link>
         </div>
       </header>

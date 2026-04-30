@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { Toaster } from 'sonner';
 import Link from 'next/link';
+import { UserRoundSync } from 'lucide-react';
 
 export default function AdminPage() {
   const [objects, setObjects] = useState<ObjectItem[]>([]);
@@ -58,16 +59,24 @@ export default function AdminPage() {
 
       {/* Header */}
       <header className="border-b border-border bg-card">
-        <div className="max-w-6xl mx-auto px-4 py-6 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Heyama <span className="text-sm font-normal text-white ml-2 px-2 py-1 bg-red-600 rounded-md">Mode Administrateur</span></h1>
+            <h1 className="text-3xl font-bold tracking-tight flex items-center flex-wrap gap-2">
+              Heyama 
+              <span className="text-sm font-normal text-white px-2 py-1 bg-red-600 rounded-md flex items-center gap-1.5">
+                <UserRoundSync className="w-4 h-4" /> Mode admin
+              </span>
+            </h1>
             <p className="text-muted-foreground mt-1">
               Gestionnaire complet d'objets
             </p>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center w-full sm:w-auto">
             <Link href="/">
-              <Button variant="ghost">Retour Client</Button>
+              <Button variant="ghost" className="hidden sm:inline-flex">Retour Client</Button>
+              <Button variant="ghost" size="icon" className="sm:hidden" title="Retour Client">
+                ←
+              </Button>
             </Link>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger render={<Button size="lg" />}>
