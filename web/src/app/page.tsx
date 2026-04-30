@@ -61,7 +61,7 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="text-muted-foreground mt-1">
-              Galerie des objets (Lecture seule)
+              Galerie des objets
             </p>
           </div>
           <Link href="/admin">
