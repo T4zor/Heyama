@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { Toaster } from 'sonner';
 import Link from 'next/link';
-import { UserRoundSync } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 
 export default function AdminPage() {
   const [objects, setObjects] = useState<ObjectItem[]>([]);
@@ -75,7 +75,7 @@ export default function AdminPage() {
           <div className="flex gap-4 items-center w-full sm:w-auto">
             <Link href="/">
               <Button variant="ghost" className="flex items-center gap-2">
-                <UserRoundSync className="w-4 h-4" /> Mode client
+                <RefreshCw className="w-4 h-4" /> Mode client
               </Button>
             </Link>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

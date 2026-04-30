@@ -8,7 +8,7 @@ import ObjectCard from '@/components/ObjectCard';
 import { Button } from '@/components/ui/button';
 import { Toaster } from 'sonner';
 import Link from 'next/link';
-import { UserRoundSync } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 
 export default function HomePage() {
   const [objects, setObjects] = useState<ObjectItem[]>([]);
@@ -66,7 +66,7 @@ export default function HomePage() {
           </div>
           <Link href="/admin">
             <Button variant="outline" className="flex items-center gap-2">
-              <UserRoundSync className="w-4 h-4" /> Mode admin
+              <RefreshCw className="w-4 h-4" /> Mode admin
             </Button>
           </Link>
         </div>
