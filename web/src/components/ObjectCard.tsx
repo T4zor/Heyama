@@ -5,6 +5,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import Link from 'next/link';
+import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 interface ObjectCardProps {
   object: ObjectItem;
@@ -13,15 +23,20 @@ interface ObjectCardProps {
 }
 
 export default function ObjectCard({ object, onDeleted, isAdmin = false }: ObjectCardProps) {
-  const handleDelete = async (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
 
     try {
       await deleteObject(object._id);
       toast.success('Objet supprimé');
+      setDialogOpen(false);
       onDeleted?.(object._id);
     } catch {
       toast.error('Échec de la suppression');
+      setIsDeleting(false);
     }
   };
 
@@ -55,13 +70,27 @@ export default function ObjectCard({ object, onDeleted, isAdmin = false }: Objec
             </Button>
           </Link>
           {isAdmin && (
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={handleDelete}
-            >
-              Supprimer
-            </Button>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger render={<Button variant="destructive" size="sm">Supprimer</Button>}>
+                {null}
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Êtes-vous sûr ?</DialogTitle>
+                  <DialogDescription>
+                    Cette action est irréversible. Voulez-vous vraiment supprimer cet objet de la galerie ?
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter className="sm:justify-end gap-2 mt-2">
+                  <Button variant="outline" onClick={() => setDialogOpen(false)} disabled={isDeleting}>
+                    Annuler
+                  </Button>
+                  <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
+                    {isDeleting ? 'Suppression...' : 'Oui, supprimer'}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           )}
         </div>
       </CardContent>
