@@ -6,12 +6,20 @@ import { useSocket } from '@/lib/socket';
 import CreateObjectForm from '@/components/CreateObjectForm';
 import ObjectCard from '@/components/ObjectCard';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { Toaster } from 'sonner';
 import Link from 'next/link';
 
-export default function HomePage() {
+export default function AdminPage() {
   const [objects, setObjects] = useState<ObjectItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const fetchObjects = useCallback(async () => {
     try {
@@ -52,14 +60,27 @@ export default function HomePage() {
       <header className="border-b border-border bg-card">
         <div className="max-w-6xl mx-auto px-4 py-6 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Heyama <span className="text-sm font-normal text-muted-foreground ml-2 px-2 py-1 bg-muted rounded-md">Vue Client</span></h1>
+            <h1 className="text-3xl font-bold tracking-tight">Heyama <span className="text-sm font-normal text-white ml-2 px-2 py-1 bg-red-600 rounded-md">Mode Administrateur</span></h1>
             <p className="text-muted-foreground mt-1">
-              Galerie des objets (Lecture seule)
+              Gestionnaire complet d'objets
             </p>
           </div>
-          <Link href="/admin">
-            <Button variant="outline">Accès Admin 🔒</Button>
-          </Link>
+          <div className="flex gap-4 items-center">
+            <Link href="/">
+              <Button variant="ghost">Retour Client</Button>
+            </Link>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger render={<Button size="lg" />}>
+                + Nouvel objet
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Créer un nouvel objet</DialogTitle>
+                </DialogHeader>
+                <CreateObjectForm />
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
       </header>
 
@@ -77,8 +98,19 @@ export default function HomePage() {
             <div className="text-6xl mb-4">📦</div>
             <h2 className="text-2xl font-semibold mb-2">Aucun objet pour le moment</h2>
             <p className="text-muted-foreground mb-6">
-              Les objets créés par l'administrateur apparaîtront ici.
+              Créez votre premier objet pour commencer
             </p>
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger render={<Button size="lg" />}>
+                + Créer votre premier objet
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Créer un nouvel objet</DialogTitle>
+                </DialogHeader>
+                <CreateObjectForm />
+              </DialogContent>
+            </Dialog>
           </div>
         ) : (
           <>
@@ -86,14 +118,14 @@ export default function HomePage() {
               <h2 className="text-xl font-semibold">
                 {objects.length} Objet{objects.length > 1 ? 's' : ''}
               </h2>
-
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {objects.map((obj) => (
                 <ObjectCard
                   key={obj._id}
                   object={obj}
-                  isAdmin={false}
+                  onDeleted={handleDeleted}
+                  isAdmin={true}
                 />
               ))}
             </div>

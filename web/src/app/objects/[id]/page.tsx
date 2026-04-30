@@ -31,18 +31,7 @@ export default function ObjectDetailPage() {
     fetchObject();
   }, [params.id]);
 
-  const handleDelete = async () => {
-    if (!object) return;
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cet objet ?')) return;
-
-    try {
-      await deleteObject(object._id);
-      toast.success('Objet supprimé');
-      router.push('/');
-    } catch {
-      toast.error('Échec de la suppression');
-    }
-  };
+  // La suppression se fait désormais depuis la galerie Admin
 
   if (loading) {
     return (
@@ -125,7 +114,6 @@ export default function ObjectDetailPage() {
             <p className="text-muted-foreground text-lg leading-relaxed">
               {object.description}
             </p>
-            <div className="flex items-center justify-between pt-4 border-t border-border">
               <p className="text-sm text-muted-foreground">
                 Créé le{' '}
                 {new Date(object.createdAt).toLocaleDateString('fr-FR', {
@@ -136,9 +124,6 @@ export default function ObjectDetailPage() {
                   minute: '2-digit',
                 })}
               </p>
-              <Button variant="destructive" onClick={handleDelete}>
-                Supprimer l'objet
-              </Button>
             </div>
           </CardContent>
         </Card>

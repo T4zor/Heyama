@@ -9,9 +9,10 @@ import Link from 'next/link';
 interface ObjectCardProps {
   object: ObjectItem;
   onDeleted?: (id: string) => void;
+  isAdmin?: boolean;
 }
 
-export default function ObjectCard({ object, onDeleted }: ObjectCardProps) {
+export default function ObjectCard({ object, onDeleted, isAdmin = false }: ObjectCardProps) {
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -53,13 +54,15 @@ export default function ObjectCard({ object, onDeleted }: ObjectCardProps) {
               Voir
             </Button>
           </Link>
-          <Button
-            variant="destructive"
-            size="sm"
-            onClick={handleDelete}
-          >
-            Supprimer
-          </Button>
+          {isAdmin && (
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={handleDelete}
+            >
+              Supprimer
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>
