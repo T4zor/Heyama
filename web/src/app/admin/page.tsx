@@ -61,10 +61,11 @@ export default function AdminPage() {
       <header className="border-b border-border bg-card">
         <div className="max-w-6xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight flex items-center flex-wrap gap-2">
+            <h1 className="text-3xl font-bold tracking-tight flex items-center flex-wrap gap-3">
               Heyama 
-              <span className="text-sm font-normal text-white px-2 py-1 bg-red-600 rounded-md flex items-center gap-1.5">
-                <UserRoundSync className="w-4 h-4" /> Mode admin
+              <span className="relative flex h-3 w-3" title="Mode Admin">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-orange-500"></span>
               </span>
             </h1>
             <p className="text-muted-foreground mt-1">
