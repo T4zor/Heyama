@@ -114,6 +114,7 @@ export default function ObjectDetailPage() {
             <p className="text-muted-foreground text-lg leading-relaxed">
               {object.description}
             </p>
+            <div className="pt-4 border-t border-border">
               <p className="text-sm text-muted-foreground">
                 Créé le{' '}
                 {new Date(object.createdAt).toLocaleDateString('fr-FR', {
