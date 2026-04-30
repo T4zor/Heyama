@@ -21,8 +21,10 @@ export class ObjectsService {
   ): Promise<ObjectItemDocument> {
     this.logger.log(`Creating object: ${createObjectDto.title}`);
 
+    // 1. On envoie d'abord l'image sur le Cloud (Cloudflare R2)
     const { key, url } = await this.uploadService.uploadFile(file);
 
+    // 2. On sauvegarde ensuite l'objet dans la base de données (MongoDB) avec l'URL de l'image
     const created = new this.objectModel({
       ...createObjectDto,
       imageUrl: url,
@@ -45,16 +47,18 @@ export class ObjectsService {
   }
 
   async remove(id: string): Promise<ObjectItemDocument> {
+    // 1. On vérifie que l'objet existe bien
     const obj = await this.objectModel.findById(id).exec();
     if (!obj) {
       throw new NotFoundException(`Object with id ${id} not found`);
     }
 
-    // Delete image from S3
+    // 2. On supprime l'image du Cloud pour ne pas payer de stockage inutile
     if (obj.imageKey) {
       await this.uploadService.deleteFile(obj.imageKey);
     }
 
+    // 3. Enfin, on supprime l'objet de MongoDB
     await this.objectModel.findByIdAndDelete(id).exec();
     this.logger.log(`Deleted object: ${id}`);
     return obj;

@@ -1,5 +1,7 @@
+// URL de base de notre API NestJS (en local ou sur Render)
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:3001';
 
+// Structure de données (Interface TypeScript) pour un Objet
 export interface ObjectItem {
   _id: string;
   title: string;
@@ -10,7 +12,9 @@ export interface ObjectItem {
   updatedAt: string;
 }
 
+// Fonction pour récupérer TOUS les objets
 export async function getObjects(): Promise<ObjectItem[]> {
+  // On utilise 'no-store' pour forcer Next.js à toujours demander les données fraîches au serveur
   const res = await fetch(`${API_URL}/objects`, { cache: 'no-store' });
   if (!res.ok) throw new Error('Failed to fetch objects');
   return res.json();

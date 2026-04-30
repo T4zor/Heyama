@@ -23,6 +23,8 @@ export class ObjectsController {
     private readonly objectsGateway: ObjectsGateway,
   ) {}
 
+  // Endpoint: POST /objects
+  // Reçoit le titre, la description ET l'image (multipart/form-data)
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   async create(
@@ -38,10 +40,12 @@ export class ObjectsController {
     file: Express.Multer.File,
   ) {
     const obj = await this.objectsService.create(createObjectDto, file);
+    // On notifie en temps réel tous les clients qu'un objet a été créé
     this.objectsGateway.emitObjectCreated(obj);
     return obj;
   }
 
+  // Endpoint: GET /objects
   @Get()
   async findAll() {
     return this.objectsService.findAll();
@@ -52,6 +56,7 @@ export class ObjectsController {
     return this.objectsService.findOne(id);
   }
 
+  // Endpoint: DELETE /objects/:id
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const obj = await this.objectsService.remove(id);
