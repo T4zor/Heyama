@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/dialog';
 import { Toaster } from 'sonner';
 import Link from 'next/link';
-import { UserRoundSync } from 'lucide-react';
 
 export default function AdminPage() {
   const [objects, setObjects] = useState<ObjectItem[]>([]);
