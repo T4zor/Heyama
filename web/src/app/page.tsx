@@ -8,6 +8,7 @@ import ObjectCard from '@/components/ObjectCard';
 import { Button } from '@/components/ui/button';
 import { Toaster } from 'sonner';
 import Link from 'next/link';
+import { UserRoundSync } from 'lucide-react';
 
 export default function HomePage() {
   const [objects, setObjects] = useState<ObjectItem[]>([]);
